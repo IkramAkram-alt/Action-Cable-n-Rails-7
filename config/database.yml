@@ -1,0 +1,25 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: action_cable_postgres
+  username: postgres
+  password: password
+  host: db
+
+test:
+  <<: *default
+  database: action_cable_postgres
+  username: postgres
+  password: password
+  host: db
+
+production:
+  <<: *default
+  database: <%= ENV.fetch('DB_NAME', '') %>
+  username: <%= ENV.fetch('POSTGRES_USER', '') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD', '') %>
+  host: <%= ENV.fetch('HOST', '') %>

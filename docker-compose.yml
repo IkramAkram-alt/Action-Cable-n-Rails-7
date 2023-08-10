@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    container_name: action_cable_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    networks:
+      - zullion_mvp_default
+
+  zullion-mvp:
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      args:
+        RAILS_ENV: development # Set the desired environment here (e.g., development, production)
+    container_name: action_cable_mvp_app
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+    networks:
+      - zullion_mvp_default
+
+networks:
+  zullion_mvp_default:
+    driver: bridge
