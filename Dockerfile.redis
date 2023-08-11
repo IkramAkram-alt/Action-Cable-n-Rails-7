@@ -1,0 +1,4 @@
+FROM redis:latest
+
+EXPOSE 6400
+CMD [ "redis-server", "--port", "6400"]

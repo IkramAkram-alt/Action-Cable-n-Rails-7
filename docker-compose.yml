@@ -12,6 +12,19 @@ services:
     networks:
       - zullion_mvp_default
 
+  redis:
+    build:
+      context: .
+      dockerfile: Dockerfile.redis
+    container_name: redis-database
+    restart: always
+    ports:
+      - "6380:6400" # Map container port 6400 to host port 6380
+    volumes:
+      - ./backups/redis:/data
+    networks:
+      - zullion_mvp_default
+
   zullion-mvp:
     tty: true
     stdin_open: true
@@ -25,9 +38,10 @@ services:
     volumes:
       - .:/app
     ports:
-      - "3001:3000"
+      - "3000:3000"
     depends_on:
       - db
+      - redis # Add Redis as a dependency
     networks:
       - zullion_mvp_default
 
